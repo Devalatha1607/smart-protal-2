@@ -4,8 +4,7 @@
   "description": "A complete 3-portal online assessment management system",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "build": "echo Build Complete"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.19.2",
