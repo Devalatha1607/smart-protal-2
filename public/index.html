@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Assessment Management System</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header id="main-header" class="app-header app-container hidden">
+    <div class="brand">
+      <span class="brand-icon">⚡</span> Smart Assessment
+    </div>
+    <div id="user-info-badge" class="user-badge">
+      <span id="badge-name">Welcome User</span>
+      <span id="badge-reg" class="hidden"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="app-container">
+
+    <!-- ======================================================= -->
+    <!-- PORTAL SELECTION & LOGIN PANEL                          -->
+    <!-- ======================================================= -->
+    <div id="auth-panel" class="login-container">
+      <div class="text-center mb-3">
+        <div class="brand" style="justify-content: center; font-size: 2.2rem; margin-bottom: 0.5rem;">
+          <span class="brand-icon">⚡</span> Smart Assessment
+        </div>
+        <p style="color: var(--text-secondary);">Online Exam & Assessment Management System</p>
+      </div>
+
+      <div class="glass-card">
+        <h2 id="login-portal-title" class="login-title">Account <span>Login</span></h2>
+        
+        <div id="login-alert" class="alert alert-danger hidden"></div>
+
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <!-- Unified Credential Label -->
+          <div class="form-group">
+            <label id="username-label" for="login-username">Credential ID / Email</label>
+            <input type="text" id="login-username" class="form-control" placeholder="e.g. REG001 or teacher@school.com" required oninput="toggleForgotLink()">
+          </div>
+
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+          </div>
+
+          <div class="form-group" style="text-align: right; margin-top: -0.5rem; margin-bottom: 1rem;">
+            <a href="#" id="forgot-password-link" class="hidden" onclick="handleForgotPassword(event)" style="font-size: 0.85rem; color: var(--secondary); text-decoration: none;">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+            Authenticate Access
+          </button>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- MODULE 1: STUDENT PORTAL VIEW                           -->
+    <!-- ======================================================= -->
+    <div id="student-portal" class="hidden">
+      <div class="mb-3">
+        <h1 id="student-welcome-title">Welcome Student</h1>
+        <p style="color: var(--text-secondary);">Available tests assigned to your class are listed below.</p>
+      </div>
+
+      <!-- Tests Grid List -->
+      <div id="student-test-list" class="cards-row">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- STUDENT EXAM PAGE VIEW -->
+    <div id="student-exam-page" class="hidden">
+      <div class="exam-layout">
+        
+        <!-- Question Content Card -->
+        <div class="glass-card question-box">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div id="exam-question-badge" class="question-number-badge">Question 1 of 10</div>
+            <div id="exam-test-title" style="font-weight: 700; font-size: 1.2rem; color: var(--secondary);">HTML Exam</div>
+          </div>
+
+          <div id="exam-question-text" class="question-text">
+            Loading question text...
+          </div>
+
+          <div id="exam-options-list" class="options-list">
+            <!-- Shuffled options dynamically rendered -->
+          </div>
+
+          <div class="exam-actions">
+            <button class="btn btn-secondary" onclick="prevQuestion()">Previous</button>
+            <button class="btn btn-warning" onclick="markForReview()">Mark For Review</button>
+            <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem; margin-top: 1rem;" class="text-right">
+            <button class="btn btn-danger" onclick="triggerSubmitConfirmation()">Submit Test</button>
+          </div>
+        </div>
+
+        <!-- Exam Status / Palette Sidebar -->
+        <div class="exam-sidebar">
+          <!-- Countdown Timer -->
+          <div class="glass-card timer-box">
+            <div class="timer-title">Time Remaining</div>
+            <div id="exam-timer-clock" class="timer-clock">00:00</div>
+          </div>
+
+          <!-- Question Palette -->
+          <div class="glass-card palette-box">
+            <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">Question Palette</h3>
+            
+            <div id="exam-palette-grid" class="palette-grid">
+              <!-- Grid items rendered dynamically -->
+            </div>
+
+            <!-- Legend -->
+            <div class="palette-legend">
+              <div class="legend-item">
+                <div class="legend-dot not-visited"></div>
+                <span>Not Visited</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot answered"></div>
+                <span>Answered</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot visited-unanswered"></div>
+                <span>Not Answered</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot marked-review"></div>
+                <span>For Review</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- MODULE 2: TEACHER PORTAL VIEW                           -->
+    <!-- ======================================================= -->
+    <div id="teacher-portal" class="hidden">
+      
+      <!-- Class Selection Dashboard -->
+      <div id="teacher-class-selection">
+        <div class="mb-3">
+          <h1>Class Selection</h1>
+          <p style="color: var(--text-secondary);">Select the department and section to manage exams and grades.</p>
+        </div>
+        <div id="teacher-allocated-classes" class="class-selector-grid">
+          <!-- Populated dynamically with teacher classes -->
+        </div>
+      </div>
+
+      <!-- Selected Class Dashboard Layout -->
+      <div id="teacher-dashboard" class="hidden">
+        <div class="mb-2" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+          <h1 id="teacher-dashboard-title">CSE - Year 3 (Section A)</h1>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-sm" onclick="openTeacherChangePasswordModal()">🔐 Change Password</button>
+            <button class="btn btn-secondary btn-sm" onclick="returnToClassSelection()">↩ Switch Class</button>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Sidebar Nav links -->
+          <div class="sidebar">
+            <button class="sidebar-link active" onclick="switchTeacherTab('create-test', this)">Create Test</button>
+            <button class="sidebar-link" onclick="switchTeacherTab('manage-test', this)">Manage Tests</button>
+            <button class="sidebar-link" onclick="switchTeacherTab('view-result', this)">View Results & Analytics</button>
+          </div>
+
+          <!-- Main Panels -->
+          <div class="main-content">
+            
+            <!-- Tab A: Create Test Form -->
+            <div id="teacher-tab-create-test" class="glass-card">
+              <h2 class="mb-3">Create Assessment</h2>
+              <form id="create-test-form" onsubmit="handleCreateTest(event)">
+                <div class="form-group">
+                  <label for="new-test-name">Test Name</label>
+                  <input type="text" id="new-test-name" class="form-control" placeholder="e.g. HTML Quiz" required>
+                </div>
+                <div class="form-group">
+                  <label for="new-test-duration">Duration (Minutes)</label>
+                  <input type="number" id="new-test-duration" class="form-control" min="1" placeholder="e.g. 30" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save and Edit Content</button>
+              </form>
+            </div>
+
+            <!-- Tab B: Test Content Management Redirect -->
+            <div id="teacher-tab-test-content" class="glass-card hidden">
+              <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+                <h2 id="content-test-name-title">Test: HTML Basics</h2>
+                <button class="btn btn-secondary btn-sm" onclick="switchTeacherTab('manage-test')">↩ Back to Test Manager</button>
+              </div>
+
+              <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                <button class="btn btn-primary" onclick="showAddQuestionForm()">+ Add Question Manually</button>
+                <button class="btn btn-secondary" onclick="showUploadFileForm()">⚡ Upload Question File</button>
+              </div>
+
+              <!-- Manual Question Form -->
+              <div id="manual-question-form-container" class="hidden mb-3" style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
+                <h3 class="mb-2">Add Question</h3>
+                <form id="manual-question-form" onsubmit="handleManualQuestionSubmit(event)">
+                  <div class="form-group">
+                    <label for="mq-text">Question Text</label>
+                    <textarea id="mq-text" class="form-control" rows="2" placeholder="Enter question description..." required></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="mq-a">Option A</label>
+                    <input type="text" id="mq-a" class="form-control" placeholder="Option A text" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="mq-b">Option B</label>
+                    <input type="text" id="mq-b" class="form-control" placeholder="Option B text" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="mq-c">Option C</label>
+                    <input type="text" id="mq-c" class="form-control" placeholder="Option C text" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="mq-d">Option D</label>
+                    <input type="text" id="mq-d" class="form-control" placeholder="Option D text" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="mq-correct">Correct Option</label>
+                    <select id="mq-correct" class="form-control" required>
+                      <option value="A">Option A</option>
+                      <option value="B">Option B</option>
+                      <option value="C">Option C</option>
+                      <option value="D">Option D</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-success">Save Question</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideAddQuestionForm()">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- File Upload Form -->
+              <div id="upload-file-form-container" class="hidden mb-3" style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
+                <h3 class="mb-2">Automatic File Question Extractor</h3>
+                <p class="mb-2" style="color: var(--text-secondary); font-size: 0.9rem;">
+                  Upload TXT, PDF, DOCX, PPTX, or Images. The system will automatically parse and convert contents into multiple choice questions.
+                  To ensure accuracy with text uploads, please use the following block format:
+                </p>
+                <pre style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 1.5rem; color: var(--secondary);">
+Q: What is HTML?
+A: Hyper Text Markup Language
+B: Hot Mail
+C: How to Make Lunch
+D: Hyperlink Text Markup Language
+Correct: A</pre>
+
+                <form id="file-upload-form" onsubmit="handleFileUpload(event)">
+                  <div class="file-upload-zone" onclick="document.getElementById('upload-file-input').click()">
+                    <span class="file-upload-icon">📂</span>
+                    <div class="file-upload-text">Click or Drag document here to upload</div>
+                    <div class="file-upload-subtext">Supports PDF, DOC, DOCX, PPT, PPTX, TXT, Images</div>
+                    <input type="file" id="upload-file-input" style="display: none;" onchange="updateUploadLabel(this)" required>
+                    <div id="upload-file-name" style="margin-top: 0.75rem; font-weight: 600; color: #fff;"></div>
+                  </div>
+                  <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-success">Extract & Import Questions</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideUploadFileForm()">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem; margin-top: 1.5rem;">
+                <h3 class="mb-2">Current Test Questions</h3>
+                <div class="table-container">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 60px;">No.</th>
+                        <th>Question Text</th>
+                        <th>Options</th>
+                        <th style="width: 100px;">Correct</th>
+                      </tr>
+                    </thead>
+                    <tbody id="current-test-questions-tbody">
+                      <tr>
+                        <td colspan="4" class="text-center" style="color: var(--text-secondary);">No questions added yet.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab C: Manage Tests List -->
+            <div id="teacher-tab-manage-test" class="glass-card hidden">
+              <h2 class="mb-3">Manage Assessments</h2>
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Test Name</th>
+                      <th>Duration</th>
+                      <th>Class</th>
+                      <th class="text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="manage-tests-tbody">
+                    <!-- Loaded dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Tab D: View Results, Attendance, Logs -->
+            <div id="teacher-tab-view-result" class="hidden">
+              <!-- Selected Test Selection for results -->
+              <div class="glass-card mb-3">
+                <label for="results-test-selector" style="font-weight: 600; margin-bottom: 0.5rem; display: block;">Select Test to View Grades</label>
+                <select id="results-test-selector" class="form-control" onchange="loadTestResults(this.value)">
+                  <!-- Loaded dynamically -->
+                </select>
+              </div>
+
+              <!-- Test Result Analytics Panel -->
+              <div id="test-results-container" class="hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                  <h2 id="results-test-title">Results: HTML Basics</h2>
+                  <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary btn-sm" onclick="exportResultsCSV(false)">👁️ View CSV Online</button>
+                    <button class="btn btn-success btn-sm" onclick="exportResultsCSV(true)">📥 Download Excel File</button>
+                  </div>
+                </div>
+
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div id="attendance-stat-value" class="stat-value">0 / 0</div>
+                    <div class="stat-label">Attendance Rate</div>
+                  </div>
+                  <div class="stat-card">
+                    <div id="class-pct-value" class="stat-value">0%</div>
+                    <div class="stat-label">Class Average</div>
+                  </div>
+                  <div class="stat-card">
+                    <div id="dept-pct-value" class="stat-value">0%</div>
+                    <div class="stat-label">Dept Average</div>
+                  </div>
+                  <div class="stat-card">
+                    <div id="year-pct-value" class="stat-value">0%</div>
+                    <div class="stat-label">Year Average</div>
+                  </div>
+                </div>
+
+                <div class="glass-card mb-3">
+                  <h3 class="mb-2">Student Performance Table</h3>
+                  <div class="table-container">
+                    <table class="data-table">
+                      <thead>
+                        <tr>
+                          <th>Student Name</th>
+                          <th>Register Number</th>
+                          <th>Attendance Status</th>
+                          <th>Marks / Score</th>
+                          <th style="width: 140px; text-align: center;">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="student-grades-tbody">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Cheating Logs Panel -->
+                <div class="glass-card">
+                  <h3 class="mb-2" style="color: #f87171;">Cheating Alert Logs</h3>
+                  <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Real-time detection events of students attempting to switch tabs, minimize windows, or change applications during this exam.
+                  </p>
+                  <div class="table-container">
+                    <table class="data-table">
+                      <thead>
+                        <tr>
+                          <th>Student Name</th>
+                          <th>Register Number</th>
+                          <th>Class Info</th>
+                          <th>Timestamp</th>
+                          <th>Event Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="cheating-logs-tbody">
+                        <tr>
+                          <td colspan="5" class="text-center" style="color: var(--text-secondary);">No cheating attempts detected. Good compliance!</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- MODULE 3: ADMIN PORTAL VIEW                             -->
+    <!-- ======================================================= -->
+    <div id="admin-portal" class="hidden">
+      <div class="mb-2" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+        <div>
+          <h1>Admin Portal Dashboard</h1>
+          <p style="color: var(--text-secondary);">System configuration, database record managers, and percentage overview statistics.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="openAdminCredsModal()">🔐 Change Admin Credentials</button>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="sidebar">
+          <button class="sidebar-link active" onclick="switchAdminTab('students', this)">Student Management</button>
+          <button class="sidebar-link" onclick="switchAdminTab('teachers', this)">Teacher Management</button>
+          <button class="sidebar-link" onclick="switchAdminTab('analytics', this)">Percentage Overview</button>
+        </div>
+
+        <div class="main-content">
+          
+          <!-- Student Management Panel -->
+          <div id="admin-tab-students" class="glass-card">
+            <h2>Student Roster Management</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Select Department, Year, and Section to load or initialize students.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 150px; gap: 1rem; align-items: flex-end; margin-bottom: 2rem;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="admin-stud-dept" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  Department
+                  <button type="button" class="btn btn-secondary btn-sm" style="padding: 0.1rem 0.4rem; font-size: 0.75rem; border-radius: 4px; line-height: 1;" onclick="openDeptManager()">Edit Dept</button>
+                </label>
+                <select id="admin-stud-dept" class="form-control">
+                  <!-- Loaded dynamically -->
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="admin-stud-year">Year</label>
+                <select id="admin-stud-year" class="form-control">
+                  <option value="1">1st Year</option>
+                  <option value="2">2nd Year</option>
+                  <option value="3">3rd Year</option>
+                  <option value="4">4th Year</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="admin-stud-sec">Section</label>
+                <select id="admin-stud-sec" class="form-control">
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="admin-stud-count">Student Count</label>
+                <input type="number" id="admin-stud-count" class="form-control" min="0" value="0" readonly disabled>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: center; justify-content: flex-start;">
+              <button class="btn btn-secondary btn-sm" onclick="document.getElementById('student-import-input').click()">📂 Upload Student File</button>
+              <input type="file" id="student-import-input" style="display: none;" onchange="handleStudentBulkImport(this)" accept=".csv,.txt,.xlsx,.xls,.pdf,.docx,.doc,.jpg,.jpeg,.png,.webp">
+              <span id="student-import-status" style="font-size: 0.9rem; color: var(--text-secondary);"></span>
+            </div>
+
+            <div id="student-grid-container" class="hidden">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 id="student-grid-title">Class CSE - Year 1 (Sec A)</h3>
+                <button class="btn btn-secondary btn-sm" onclick="addNewStudentRow()">+ Add Row</button>
+              </div>
+
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 60px;">S.No</th>
+                      <th>Student Name</th>
+                      <th>Register Number</th>
+                      <th>Password</th>
+                      <th style="width: 100px; text-align: center;">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="student-editable-tbody">
+                    <!-- Rows generated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+              <button class="btn btn-success" onclick="saveStudentGrid()">Save Class Changes</button>
+              <button class="btn btn-danger" id="clear-all-students-btn" onclick="clearAllStudents()" style="margin-left: 0.5rem;">Clear All Students</button>
+              <button class="btn btn-warning" id="switch-year-btn" onclick="handleSwitchYear()" style="margin-left: 0.5rem;">Switch Year</button>
+              <button class="btn btn-secondary" id="undo-switch-year-btn" onclick="handleUndoSwitchYear()" style="margin-left: 0.5rem;" disabled>Undo</button>
+            </div>
+          </div>
+
+          <!-- Teacher Management Panel -->
+          <div id="admin-tab-teachers" class="glass-card hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+              <h2>Teacher Account Management</h2>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('teacher-import-input').click()">📂 Upload Teacher File</button>
+                <input type="file" id="teacher-import-input" style="display: none;" onchange="handleTeacherBulkImport(this)" accept=".csv,.txt,.xlsx,.xls,.pdf,.docx,.doc">
+                <button class="btn btn-primary btn-sm" onclick="openTeacherModal()">+ Add New Teacher</button>
+              </div>
+            </div>
+            <div id="teacher-import-status" style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);"></div>
+
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Teacher Name</th>
+                    <th>Email Address</th>
+                    <th>Password</th>
+                    <th>Assigned Classes</th>
+                    <th style="width: 150px; text-align: center;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="teacher-roster-tbody">
+                  <!-- Dynamic teacher lists -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Percentage Overview Panel -->
+          <div id="admin-tab-analytics" class="hidden">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div id="admin-total-teachers" class="stat-value">0</div>
+                <div class="stat-label">Total Faculty</div>
+              </div>
+              <div class="stat-card">
+                <div id="admin-overall-pct" class="stat-value">N/A</div>
+                <div class="stat-label">System Performance Avg</div>
+              </div>
+            </div>
+
+            <div class="cards-row mb-3">
+              <div class="glass-card">
+                <h3 class="mb-2">Department Averages</h3>
+                <ul id="admin-dept-averages" style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+                  <!-- Dynamically populated -->
+                </ul>
+              </div>
+              <div class="glass-card">
+                <h3 class="mb-2">Year Averages</h3>
+                <ul id="admin-year-averages" style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+                  <!-- Dynamically populated -->
+                </ul>
+              </div>
+            </div>
+
+            <!-- Handled Classes -->
+            <div class="glass-card mb-3">
+              <h3 class="mb-2">Faculty Workload (Classes Handled)</h3>
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Teacher Name</th>
+                      <th>Handled Classes (Dept, Year, Sec)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-faculty-workload-tbody">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Student details for every class -->
+            <div class="glass-card">
+              <h3 class="mb-2">Student Demographics by Class</h3>
+              <div id="admin-class-student-details-container" style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ======================================================= -->
+  <!-- MODALS & POPUPS                                         -->
+  <!-- ======================================================= -->
+
+  <!-- Teacher Form Modal -->
+  <div id="teacher-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 id="teacher-modal-title" class="modal-title">Create Teacher</h3>
+      <form id="teacher-modal-form" onsubmit="handleTeacherModalSubmit(event)">
+        <input type="hidden" id="teacher-modal-id">
+        <div class="form-group">
+          <label for="teacher-modal-name">Teacher Name</label>
+          <input type="text" id="teacher-modal-name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="teacher-modal-email">Email Address</label>
+          <input type="email" id="teacher-modal-email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="teacher-modal-password">Password</label>
+          <input type="password" id="teacher-modal-password" class="form-control" required>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-glass); padding-top: 1rem; margin-top: 1rem;">
+          <h4 class="mb-1">Assign Classes</h4>
+          <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.75rem;">
+            Assign classes this teacher handles. Add multiple classes as needed.
+          </p>
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+            <select id="teacher-modal-dept" class="form-control">
+              <option value="CSE">CSE</option>
+              <option value="ECE">ECE</option>
+              <option value="EEE">EEE</option>
+              <option value="MECH">MECH</option>
+            </select>
+            <select id="teacher-modal-year" class="form-control">
+              <option value="1">Year 1</option>
+              <option value="2">Year 2</option>
+              <option value="3">Year 3</option>
+              <option value="4">Year 4</option>
+            </select>
+            <select id="teacher-modal-sec" class="form-control">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
+            <button type="button" class="btn btn-primary" onclick="addTeacherModalClass()">Add</button>
+          </div>
+
+          <div id="teacher-modal-classes-list" style="display: flex; flex-wrap: wrap; gap: 0.5rem; max-height: 100px; overflow-y: auto;">
+            <!-- Added tags go here -->
+          </div>
+        </div>
+
+        <div class="modal-footer" style="margin-top: 2rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeTeacherModal()">Cancel</button>
+          <button type="submit" class="btn btn-success">Save Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Online CSV Preview Modal -->
+  <div id="csv-preview-modal" class="modal-overlay hidden">
+    <div class="modal-content" style="max-width: 800px; width: 95%;">
+      <h3 class="modal-title">Online CSV Table Preview</h3>
+      
+      <div class="modal-body">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <input type="text" id="csv-search-input" class="form-control" placeholder="Search by student name or register number..." oninput="onCsvSearch()">
+        </div>
+        
+        <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th onclick="sortCsvTable('name')" style="cursor: pointer; user-select: none;">Student Name <span id="csv-sort-name">↕</span></th>
+                <th onclick="sortCsvTable('reg')" style="cursor: pointer; user-select: none;">Register Number <span id="csv-sort-reg">↕</span></th>
+                <th onclick="sortCsvTable('marks')" style="cursor: pointer; user-select: none;">Marks <span id="csv-sort-marks">↕</span></th>
+                <th onclick="sortCsvTable('status')" style="cursor: pointer; user-select: none;">Attendance Status <span id="csv-sort-status">↕</span></th>
+              </tr>
+            </thead>
+            <tbody id="csv-preview-tbody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+          <span id="csv-pagination-info" style="font-size: 0.9rem; color: var(--text-secondary);">Showing 1-5 of 5</span>
+          <div style="display: flex; gap: 0.5rem;">
+            <button id="csv-btn-prev" class="btn btn-secondary btn-sm" onclick="prevCsvPage()">Previous</button>
+            <button id="csv-btn-next" class="btn btn-secondary btn-sm" onclick="nextCsvPage()">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="margin-top: 1rem;">
+        <button class="btn btn-primary" onclick="closeCsvPreviewModal()">Close Preview</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Department Manager Modal -->
+  <div id="dept-modal" class="modal-overlay hidden">
+    <div class="modal-content" style="max-width: 400px; width: 95%;">
+      <h3 class="modal-title">Manage Departments</h3>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="dept-modal-list">Existing Departments</label>
+          <select id="dept-modal-list" class="form-control" onchange="onDeptSelectChange()" size="4" style="height: 100px; padding: 0.5rem;">
+            <!-- Loaded dynamically -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="dept-modal-input">Department Name</label>
+          <input type="text" id="dept-modal-input" class="form-control" placeholder="Select department or type new...">
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
+        <div style="display: flex; gap: 0.5rem; width: 100%;">
+          <button type="button" class="btn btn-primary btn-sm" style="flex: 1;" onclick="handleDeptAdd()">Add</button>
+          <button type="button" class="btn btn-success btn-sm" style="flex: 1;" onclick="handleDeptRename()">Rename</button>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm" style="width: 100%;" onclick="handleDeptRemove()">Remove</button>
+        <button type="button" class="btn btn-secondary btn-sm" style="width: 100%; margin-top: 0.5rem; border-top: 1px solid var(--border-glass);" onclick="closeDeptManager()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Credentials Update Modal -->
+  <div id="admin-creds-modal" class="modal-overlay hidden">
+    <div class="modal-content" style="max-width: 450px; width: 95%;">
+      <h3 class="modal-title">Change Admin Credentials</h3>
+      <form id="admin-creds-form" onsubmit="handleAdminCredsSubmit(event)">
+        <div class="form-group">
+          <label for="admin-creds-old-email">Old Email / Username</label>
+          <input type="text" id="admin-creds-old-email" class="form-control" placeholder="e.g. admin" required>
+        </div>
+        <div class="form-group">
+          <label for="admin-creds-old-pass">Old Password</label>
+          <input type="password" id="admin-creds-old-pass" class="form-control" placeholder="••••••••" required>
+        </div>
+        <div class="form-group" style="border-top: 1px solid var(--border-glass); padding-top: 1rem; margin-top: 1rem;">
+          <label for="admin-creds-new-email">New Email / Username</label>
+          <input type="text" id="admin-creds-new-email" class="form-control" placeholder="e.g. newadmin@school.com" required>
+        </div>
+        <div class="form-group">
+          <label for="admin-creds-new-pass">New Password</label>
+          <input type="password" id="admin-creds-new-pass" class="form-control" placeholder="••••••••" required>
+        </div>
+        <div class="modal-footer" style="margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeAdminCredsModal()">Cancel</button>
+          <button type="submit" class="btn btn-success btn-sm">Update Credentials</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Teacher Password Change Modal -->
+  <div id="teacher-pw-change-modal" class="modal-overlay hidden">
+    <div class="modal-content" style="max-width: 450px; width: 95%;">
+      <h3 class="modal-title">Change Teacher Password</h3>
+      <form id="teacher-pw-change-form" onsubmit="handleTeacherPwChangeSubmit(event)">
+        <div class="form-group">
+          <label for="teacher-pw-old-email">Old Email Address</label>
+          <input type="email" id="teacher-pw-old-email" class="form-control" placeholder="e.g. teacher@school.com" required>
+        </div>
+        <div class="form-group">
+          <label for="teacher-pw-old-pass">Old Password</label>
+          <input type="password" id="teacher-pw-old-pass" class="form-control" placeholder="••••••••" required>
+        </div>
+        <div class="form-group" style="border-top: 1px solid var(--border-glass); padding-top: 1rem; margin-top: 1rem;">
+          <label for="teacher-pw-new-pass">New Password</label>
+          <input type="password" id="teacher-pw-new-pass" class="form-control" placeholder="••••••••" required>
+        </div>
+        <div class="modal-footer" style="margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeTeacherChangePasswordModal()">Cancel</button>
+          <button type="submit" class="btn btn-success btn-sm">Change Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Student Answer Review Modal -->
+  <div id="answer-review-modal" class="modal-overlay hidden">
+    <div class="modal-content" style="max-width: 800px; width: 95%; max-height: 90vh; display: flex; flex-direction: column;">
+      <h3 class="modal-title">Student Response Review</h3>
+      
+      <div class="modal-body" style="overflow-y: auto; flex: 1; padding-right: 5px;">
+        <!-- Metadata -->
+        <div class="glass-card mb-3" style="background: rgba(0,0,0,0.2); padding: 1.25rem;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.95rem;">
+            <div><strong>Student Name:</strong> <span id="review-student-name">-</span></div>
+            <div><strong>Register Number:</strong> <span id="review-register-number">-</span></div>
+            <div><strong>Test Name:</strong> <span id="review-test-name">-</span></div>
+            <div><strong>Submission Time:</strong> <span id="review-submitted-at">-</span></div>
+            <div><strong>Score Obtained:</strong> <span id="review-score">-</span></div>
+          </div>
+        </div>
+
+        <!-- Responses List -->
+        <div id="review-responses-container" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <div class="modal-footer" style="margin-top: 1rem; border-top: 1px solid var(--border-glass); padding-top: 1rem;">
+        <button class="btn btn-primary" onclick="closeAnswerReviewModal()">Close Review</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP SCRIPTS -->
+  <script src="js/student.js"></script>
+  <script src="js/teacher.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

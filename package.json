@@ -1,0 +1,18 @@
+{
+  "name": "online-assessment-management-system",
+  "version": "1.0.0",
+  "description": "A complete 3-portal online assessment management system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7",
+    "multer": "^1.4.5-lts.1",
+    "express-session": "^1.18.0",
+    "mammoth": "^1.7.2",
+    "pdf-parse": "^1.1.1",
+    "xlsx": "^0.18.5"
+  }
+}

@@ -1,0 +1,352 @@
+{
+  "class": {
+    "department": "CIVIL",
+    "year": 1,
+    "section": "A"
+  },
+  "studentIds": [
+    2548,
+    2549,
+    2550,
+    2551,
+    2552,
+    2553,
+    2554,
+    2555,
+    2556,
+    2557,
+    2558,
+    2559,
+    2560,
+    2561,
+    2562,
+    2563,
+    2564,
+    2565,
+    2566,
+    2567,
+    2568,
+    2569,
+    2570,
+    2571,
+    2572,
+    2573,
+    2574,
+    2575,
+    2576,
+    2577,
+    2578,
+    2579,
+    2580,
+    2581
+  ],
+  "action": "promote",
+  "students": [
+    {
+      "id": 2548,
+      "name": "AKSHAY",
+      "register_number": "24CIVBE083",
+      "password": "24CIVBE083",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2549,
+      "name": "AKSHAYA",
+      "register_number": "24CIVBE049",
+      "password": "24CIVBE049",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2550,
+      "name": "AMARJITH",
+      "register_number": "24CIVBE064",
+      "password": "24CIVBE064",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2551,
+      "name": "AMIT CHAUHAN",
+      "register_number": "24CIVBE074",
+      "password": "24CIVBE074",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2552,
+      "name": "ASHOK",
+      "register_number": "24CIVBE078",
+      "password": "24CIVBE078",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2553,
+      "name": "ASWANTH",
+      "register_number": "24CIVBE050",
+      "password": "24CIVBE050",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2554,
+      "name": "ATCHAYA",
+      "register_number": "24CIVBE039",
+      "password": "24CIVBE039",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2555,
+      "name": "BHARATH SRI",
+      "register_number": "24CIVBE056",
+      "password": "24CIVBE056",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2556,
+      "name": "BHAWANA BAJGAI",
+      "register_number": "24CIVBE095",
+      "password": "24CIVBE095",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2557,
+      "name": "BOOBALAN",
+      "register_number": "24CIVBE075",
+      "password": "24CIVBE075",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2558,
+      "name": "DEEPAK",
+      "register_number": "24CIVBE079",
+      "password": "24CIVBE079",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2559,
+      "name": "DHANAJAYAN",
+      "register_number": "24CIVBE001",
+      "password": "24CIVBE001",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2560,
+      "name": "DHARSHNIESREE",
+      "register_number": "24CIVBE020",
+      "password": "24CIVBE020",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2561,
+      "name": "DHEEBIKA",
+      "register_number": "24CIVBE092",
+      "password": "24CIVBE092",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2562,
+      "name": "DHEENATAYALAN",
+      "register_number": "24CIVBE080",
+      "password": "24CIVBE080",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2563,
+      "name": "ELFARZDAG ELTAYEB IBRAHIM MOHAMED",
+      "register_number": "24CIVBE052",
+      "password": "24CIVBE052",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2564,
+      "name": "GIRINATH",
+      "register_number": "24CIVBE021",
+      "password": "24CIVBE021",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2565,
+      "name": "GOKULA KANNAN",
+      "register_number": "24CIVBE002",
+      "password": "24CIVBE002",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2566,
+      "name": "HARSHAVARDHA",
+      "register_number": "24CIVBE088",
+      "password": "24CIVBE088",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2567,
+      "name": "JANAKI",
+      "register_number": "24CIVBE062",
+      "password": "24CIVBE062",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2568,
+      "name": "JAYASREE",
+      "register_number": "24CIVBE057",
+      "password": "24CIVBE057",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2569,
+      "name": "KABILAN",
+      "register_number": "24CIVBE060",
+      "password": "24CIVBE060",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2570,
+      "name": "KANISHK",
+      "register_number": "24CIVBE016",
+      "password": "24CIVBE016",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2571,
+      "name": "KARTHIK",
+      "register_number": "24CIVBE054",
+      "password": "24CIVBE054",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2572,
+      "name": "KAVIN",
+      "register_number": "24CIVBE042",
+      "password": "24CIVBE042",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2573,
+      "name": "KIRAN PRASANNA",
+      "register_number": "24CIVBE031",
+      "password": "24CIVBE031",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2574,
+      "name": "KISHOR KUMAR",
+      "register_number": "24CIVBE011",
+      "password": "24CIVBE011",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2575,
+      "name": "KOKILA",
+      "register_number": "24CIVBE032",
+      "password": "24CIVBE032",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2576,
+      "name": "LAKSHNA",
+      "register_number": "24CIVBE019",
+      "password": "24CIVBE019",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2577,
+      "name": "MAHESHWARAN",
+      "register_number": "24CIVBE063",
+      "password": "24CIVBE063",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2578,
+      "name": "MANI BHARATHI",
+      "register_number": "24CIVBE017",
+      "password": "24CIVBE017",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2579,
+      "name": "MANOJ KUMAR SHARMA",
+      "register_number": "24CIVBE073",
+      "password": "24CIVBE073",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2580,
+      "name": "MAYAKRISHNAN",
+      "register_number": "24CIVBE084",
+      "password": "24CIVBE084",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    },
+    {
+      "id": 2581,
+      "name": "MUTHUKRISHNAN",
+      "register_number": "24CIVBE058",
+      "password": "24CIVBE058",
+      "department": "CIVIL",
+      "year": 1,
+      "section": "A"
+    }
+  ]
+}
