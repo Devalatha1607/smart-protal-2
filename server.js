@@ -91,12 +91,12 @@ app.post('/api/auth/login', async (req, res) => {
       const teacher = await db.get("SELECT * FROM teachers WHERE email = ? AND password = ?", [username, password]);
       if (teacher) {
         const classes = await db.all("SELECT department, year, section FROM teacher_classes WHERE teacher_id = ?", [teacher.id]);
-        req.session.user = { 
-          id: teacher.id, 
-          name: teacher.name, 
-          email: teacher.email, 
+        req.session.user = {
+          id: teacher.id,
+          name: teacher.name,
+          email: teacher.email,
           role: 'teacher',
-          classes: classes 
+          classes: classes
         };
         return res.json({ success: true, user: req.session.user });
       }
@@ -104,14 +104,14 @@ app.post('/api/auth/login', async (req, res) => {
       // 3. Otherwise, check student register number
       const student = await db.get("SELECT * FROM students WHERE register_number = ? AND password = ?", [username, password]);
       if (student) {
-        req.session.user = { 
-          id: student.id, 
-          name: student.name, 
-          registerNumber: student.register_number, 
+        req.session.user = {
+          id: student.id,
+          name: student.name,
+          registerNumber: student.register_number,
           department: student.department,
           year: student.year,
           section: student.section,
-          role: 'student' 
+          role: 'student'
         };
         return res.json({ success: true, user: req.session.user });
       }
@@ -239,7 +239,7 @@ app.get('/api/auth/reset-password/verify', async (req, res) => {
       return res.send('<h1>Blocked</h1><p>This reset request has been blocked and cannot be approved.</p>');
     }
     sessionData.status = 'approved';
-    
+
     const formHtml = `
       <!DOCTYPE html>
       <html>
@@ -727,7 +727,7 @@ app.post('/api/student/test/:testId/submit', requireRole('student'), async (req,
     });
 
     let score = 0;
-    
+
     // Save answers and calculate score
     for (const ans of answers) {
       const { questionId, chosenOptionKey } = ans;
@@ -740,7 +740,7 @@ app.post('/api/student/test/:testId/submit', requireRole('student'), async (req,
         await db.run(
           "INSERT OR REPLACE INTO student_answers (student_id, test_id, question_id, chosen_option) VALUES (?, ?, ?, ?)",
           [studentId, testId, questionId, chosenOptionKey]
-        ).catch(() => {}); // ignore duplicates
+        ).catch(() => { }); // ignore duplicates
       }
     }
 
@@ -796,7 +796,7 @@ app.post('/api/student/test/:testId/cheat', requireRole('student'), async (req, 
           await db.run(
             "INSERT OR REPLACE INTO student_answers (student_id, test_id, question_id, chosen_option) VALUES (?, ?, ?, ?)",
             [student.id, testId, questionId, chosenOptionKey]
-          ).catch(() => {});
+          ).catch(() => { });
         }
       }
 
@@ -972,13 +972,13 @@ app.post('/api/teacher/tests/:testId/upload', requireRole('teacher'), upload.sin
 async function extractTextFromFile(filePath, originalName) {
   try {
     const ext = path.extname(originalName).toLowerCase();
-    
+
     if (ext === '.txt' || ext === '.csv') {
       const buffer = fs.readFileSync(filePath);
       const content = buffer.toString('utf8');
       return content.replace(/^\uFEFF/, '');
     }
-    
+
     if (ext === '.xlsx' || ext === '.xls') {
       const workbook = XLSX.readFile(filePath);
       let text = '';
@@ -989,18 +989,18 @@ async function extractTextFromFile(filePath, originalName) {
       });
       return text;
     }
-    
+
     if (ext === '.docx' || ext === '.doc') {
       const result = await mammoth.extractRawText({ path: filePath });
       return result.value;
     }
-    
+
     if (ext === '.pdf') {
       const dataBuffer = fs.readFileSync(filePath);
       const data = await pdfParse(dataBuffer);
       return data.text;
     }
-    
+
     throw new Error('Unsupported file extension: ' + ext);
   } catch (err) {
     console.error('File extraction failed:', err);
@@ -1012,11 +1012,11 @@ async function extractTextFromFile(filePath, originalName) {
 function parseQuestionsText(text) {
   const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const questions = [];
-  
+
   let i = 0;
   while (i < lines.length) {
     let line = lines[i];
-    
+
     // Detect question line
     let isQuestion = false;
     if (line.toLowerCase().startsWith('q:') || line.toLowerCase().startsWith('question:') || /^\d+[\.\)]/.test(line)) {
@@ -1042,15 +1042,15 @@ function parseQuestionsText(text) {
       let questionText = line.replace(/^(q:|question:|\d+[\.\)]\s*)/i, '').trim();
       let optionA = '', optionB = '', optionC = '', optionD = '';
       let correctAns = '';
-      
+
       i++;
       let optionCount = 0;
       let hasAnsKey = false;
-      
+
       while (i < lines.length) {
         const nextLine = lines[i];
         const lowerNext = nextLine.toLowerCase();
-        
+
         // If we hit a new question, break and step back
         if (lowerNext.startsWith('q:') || lowerNext.startsWith('question:') || /^\d+[\.\)]/.test(nextLine)) {
           let isNewQ = true;
@@ -1059,7 +1059,7 @@ function parseQuestionsText(text) {
             break;
           }
         }
-        
+
         if (lowerNext.startsWith('a.') || lowerNext.startsWith('a:') || lowerNext.startsWith('a)')) {
           optionA = nextLine.replace(/^(a\.|a:|a\)\s*)/i, '').trim();
           optionCount++;
@@ -1084,7 +1084,7 @@ function parseQuestionsText(text) {
         }
         i++;
       }
-      
+
       if (!questionText) {
         throw new Error("Unsupported file structure: Question text is missing.");
       }
@@ -1094,7 +1094,7 @@ function parseQuestionsText(text) {
       if (!correctAns || !hasAnsKey) {
         throw new Error("Answer key format missing: Ensure correct answer is specified using 'Ans: <Option>', 'Answer: <Option>', or 'Correct Answer: <Option>'.");
       }
-      
+
       questions.push({
         question_text: questionText,
         option_a: optionA,
@@ -1107,11 +1107,11 @@ function parseQuestionsText(text) {
       i++;
     }
   }
-  
+
   if (questions.length === 0) {
     throw new Error("Unsupported file structure: No questions detected in the file.");
   }
-  
+
   return questions;
 }
 
@@ -1319,7 +1319,7 @@ app.get('/api/teacher/tests/:testId/responses/:studentId', requireRole('teacher'
     const responseDetails = questions.map((q, idx) => {
       const chosen = answerMap[q.id] || 'N/A';
       const isCorrect = chosen.toUpperCase() === q.correct_option.toUpperCase();
-      
+
       let selectedText = 'Unanswered';
       if (chosen.toUpperCase() === 'A') selectedText = `A. ${q.option_a}`;
       else if (chosen.toUpperCase() === 'B') selectedText = `B. ${q.option_b}`;
@@ -1397,7 +1397,7 @@ app.post('/api/departments/rename', requireRole('admin'), async (req, res) => {
   const idx = depts.indexOf(oldName);
   if (idx === -1) return res.status(404).json({ error: 'Department not found' });
   if (depts.includes(newName) && oldName !== newName) return res.status(400).json({ error: 'New department name already exists' });
-  
+
   depts[idx] = newName;
   saveDepartments(depts);
 
@@ -1458,19 +1458,19 @@ app.post('/api/admin/students/save', requireRole('admin'), async (req, res) => {
     // 2. Identify incoming students and their IDs
     const incomingStudents = [];
     const incomingIds = [];
-    
+
     for (const s of students) {
       const name = s.name ? s.name.trim() : '';
       const register_number = s.register_number ? s.register_number.trim() : '';
-      
+
       // Server-side check to ignore empty/blank records
       if (!name || !register_number) {
         continue;
       }
-      
+
       // Password must always equal the student identifier (register_number)
       const password = register_number;
-      
+
       const stud = {
         id: s.id ? parseInt(s.id) : null,
         name,
@@ -1740,7 +1740,7 @@ app.get('/api/admin/teachers', requireRole('admin'), async (req, res) => {
   try {
     const teachers = await db.all("SELECT id, name, email, password FROM teachers");
     const result = [];
-    
+
     for (const teacher of teachers) {
       const classes = await db.all("SELECT department, year, section FROM teacher_classes WHERE teacher_id = ?", [teacher.id]);
       result.push({
@@ -1819,7 +1819,7 @@ app.get('/api/admin/analytics', requireRole('admin'), async (req, res) => {
     });
 
     const submissions = await db.all("SELECT test_id, score FROM student_submissions");
-    
+
     // Overall Percentage
     let overallPct = 0;
     let overallScore = 0;
@@ -1998,23 +1998,23 @@ app.post('/api/admin/students/import', requireRole('admin'), upload.single('file
     function isHeaderRow(parts) {
       return parts.some(p => {
         const lp = p.toLowerCase().trim();
-        return lp === 'name' || lp === 'student name' || lp === 'register number' || 
-               lp === 'reg number' || lp === 'reg.no' || lp === 'reg no' || 
-               lp === 'register_number' || lp === 'password' || lp === 'pass' || 
-               lp === 'pwd' || lp === 'reg' || lp === 's.no' || lp === 'sno' || 
-               lp === 'serial' || lp === 'serial no' || lp === 'serial number' || 
-               lp === 'index' || lp === 'no' || lp === 'sl' || lp === 'sl.no' || 
-               lp === 'sl no';
+        return lp === 'name' || lp === 'student name' || lp === 'register number' ||
+          lp === 'reg number' || lp === 'reg.no' || lp === 'reg no' ||
+          lp === 'register_number' || lp === 'password' || lp === 'pass' ||
+          lp === 'pwd' || lp === 'reg' || lp === 's.no' || lp === 'sno' ||
+          lp === 'serial' || lp === 'serial no' || lp === 'serial number' ||
+          lp === 'index' || lp === 'no' || lp === 'sl' || lp === 'sl.no' ||
+          lp === 'sl no';
       });
     }
 
     function isSerialHeader(headerText) {
       if (!headerText) return false;
       const lp = headerText.toLowerCase().trim();
-      return lp === 's.no' || lp === 'sno' || lp === 'serial' || lp === 'serial no' || 
-             lp === 'serial number' || lp === 'index' || lp === 'no' || lp === 'sl' || 
-             lp === 'sl.no' || lp === 'sl no' || lp === 'sr no' || lp === 'sr.no' ||
-             lp === 's. no' || lp === 'sl. no' || lp === 'sr. no';
+      return lp === 's.no' || lp === 'sno' || lp === 'serial' || lp === 'serial no' ||
+        lp === 'serial number' || lp === 'index' || lp === 'no' || lp === 'sl' ||
+        lp === 'sl.no' || lp === 'sl no' || lp === 'sr no' || lp === 'sr.no' ||
+        lp === 's. no' || lp === 'sl. no' || lp === 'sr. no';
     }
 
     function isSerialOrIndex(dataRows, colIdx) {
@@ -2069,7 +2069,7 @@ app.post('/api/admin/students/import', requireRole('admin'), upload.single('file
       for (let j = 0; j < dataLines.length; j++) {
         const curLine = dataLines[j];
         const hasDigits = /\d/.test(curLine);
-        
+
         if (hasDigits || regPattern.test(curLine)) {
           if (tempName) {
             students.push({ name: tempName, register_number: curLine, password: curLine });
@@ -2113,10 +2113,10 @@ app.post('/api/admin/students/import', requireRole('admin'), upload.single('file
             if (lp.includes('name') || lp.includes('student')) {
               nameColIdx = idx;
             } else if (
-              lp === 'reg' || lp === 'reg.no' || lp === 'reg no' || 
-              lp === 'register' || lp === 'register number' || 
-              lp === 'register_number' || lp === 'roll no' || 
-              lp === 'roll number' || lp === 'roll_number' || 
+              lp === 'reg' || lp === 'reg.no' || lp === 'reg no' ||
+              lp === 'register' || lp === 'register number' ||
+              lp === 'register_number' || lp === 'roll no' ||
+              lp === 'roll number' || lp === 'roll_number' ||
               lp === 'student id' || lp === 'student_id' || lp === 'id' ||
               lp.includes('register number') || lp.includes('reg number') ||
               lp.includes('reg.no') || lp.includes('reg no') || lp.includes('register_number') ||
@@ -2306,7 +2306,7 @@ app.post('/api/admin/teachers/import', requireRole('admin'), upload.single('file
           const depts = getDepartments().map(d => d.toUpperCase());
           if (depts.includes(valA.toUpperCase())) scoreA += 5;
           if (depts.includes(valB.toUpperCase())) scoreB += 5;
-        } catch (e) {}
+        } catch (e) { }
 
         if (scoreA >= scoreB) {
           dept = valA.toUpperCase();
