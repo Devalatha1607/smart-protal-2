@@ -135,12 +135,12 @@ async function initialize() {
   const adminCount = await get("SELECT COUNT(*) as count FROM admins");
   if (adminCount.count === 0) {
     // Seed admin
-    await run("INSERT INTO admins (username, password) VALUES (?, ?)", ['admin', 'admin123']);
+    await run("INSERT INTO admins (username,email, password) VALUES (?,?, ?)", ['admin', 'admin@gmail.com' 'admin123']);
 
     // Seed teachers
-    const teacherId = (await run("INSERT INTO teachers (name, email, password) VALUES (?, ?, ?)", 
+    const teacherId = (await run("INSERT INTO teachers (name, email, password) VALUES (?, ?, ?)",
       ['Dr. Sarah Connor', 'teacher@school.com', 'teacher123'])).id;
-    
+
     // Assign classes to teacher
     await run("INSERT INTO teacher_classes (teacher_id, department, year, section) VALUES (?, ?, ?, ?)", [teacherId, 'CSE', 3, 'A']);
     await run("INSERT INTO teacher_classes (teacher_id, department, year, section) VALUES (?, ?, ?, ?)", [teacherId, 'CSE', 4, 'B']);
