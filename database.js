@@ -135,7 +135,7 @@ async function initialize() {
   const adminCount = await get("SELECT COUNT(*) as count FROM admins");
   if (adminCount.count === 0) {
     // Seed admin
-    await run("INSERT INTO admins (username,email, password) VALUES (?,?, ?)", ['admin', 'admin@gmail.com' 'admin123']);
+    await run("INSERT INTO admins (username,email, password) VALUES (?,?, ?)", ['admin', 'admin@gmail.com', 'admin123']);
 
     // Seed teachers
     const teacherId = (await run("INSERT INTO teachers (name, email, password) VALUES (?, ?, ?)",
