@@ -14,11 +14,21 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Cache-Control headers to prevent caching of dashboard views and sensitive APIs
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  next();
+});
+
 app.use(session({
   secret: 'online-assessment-secret-key-12345',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 hours
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax'
+  }
 }));
 
 // Configure Multer for File Uploads
@@ -1447,6 +1457,9 @@ function saveDepartments(depts) {
 }
 
 app.get('/api/departments', (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: 'Unauthorized access' });
+  }
   res.json(getDepartments());
 });
 

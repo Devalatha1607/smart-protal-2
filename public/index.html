@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Online Assessment Management System</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
   <!-- App Header -->
@@ -35,28 +37,36 @@
 
       <div class="glass-card">
         <h2 id="login-portal-title" class="login-title">Account <span>Login</span></h2>
-        
+
         <div id="login-alert" class="alert alert-danger hidden"></div>
 
         <form id="login-form" onsubmit="handleLogin(event)">
           <!-- Unified Credential Label -->
           <div class="form-group">
             <label id="username-label" for="login-username">Credential ID / Email</label>
-            <input type="text" id="login-username" class="form-control" placeholder="e.g. REG001 or teacher@school.com" required oninput="toggleForgotLink()">
+            <input type="text" id="login-username" class="form-control" placeholder="e.g. REG001 or teacher@school.com"
+              required oninput="toggleForgotLink()">
           </div>
 
           <div class="form-group">
             <label for="login-password">Password</label>
             <div class="password-wrapper">
               <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
-              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('login-password', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              <button type="button" class="password-toggle-btn"
+                onclick="togglePasswordVisibility('login-password', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="eye-icon">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
               </button>
             </div>
           </div>
 
           <div class="form-group" style="text-align: right; margin-top: -0.5rem; margin-bottom: 1rem;">
-            <a href="#" id="forgot-password-link" class="hidden" onclick="handleForgotPassword(event)" style="font-size: 0.85rem; color: var(--secondary); text-decoration: none;">Forgot Password?</a>
+            <a href="#" id="forgot-password-link" class="hidden" onclick="handleForgotPassword(event)"
+              style="font-size: 0.85rem; color: var(--secondary); text-decoration: none;">Forgot Password?</a>
           </div>
 
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
@@ -85,12 +95,13 @@
     <!-- STUDENT EXAM PAGE VIEW -->
     <div id="student-exam-page" class="hidden">
       <div class="exam-layout">
-        
+
         <!-- Question Content Card -->
         <div class="glass-card question-box">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div id="exam-question-badge" class="question-number-badge">Question 1 of 10</div>
-            <div id="exam-test-title" style="font-weight: 700; font-size: 1.2rem; color: var(--secondary);">HTML Exam</div>
+            <div id="exam-test-title" style="font-weight: 700; font-size: 1.2rem; color: var(--secondary);">HTML Exam
+            </div>
           </div>
 
           <div id="exam-question-text" class="question-text">
@@ -107,7 +118,8 @@
             <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
           </div>
 
-          <div style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem; margin-top: 1rem;" class="text-right">
+          <div style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem; margin-top: 1rem;"
+            class="text-right">
             <button class="btn btn-danger" onclick="triggerSubmitConfirmation()">Submit Test</button>
           </div>
         </div>
@@ -122,8 +134,9 @@
 
           <!-- Question Palette -->
           <div class="glass-card palette-box">
-            <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">Question Palette</h3>
-            
+            <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">
+              Question Palette</h3>
+
             <div id="exam-palette-grid" class="palette-grid">
               <!-- Grid items rendered dynamically -->
             </div>
@@ -157,7 +170,7 @@
     <!-- MODULE 2: TEACHER PORTAL VIEW                           -->
     <!-- ======================================================= -->
     <div id="teacher-portal" class="hidden">
-      
+
       <!-- Class Selection Dashboard -->
       <div id="teacher-class-selection">
         <div class="mb-3">
@@ -174,7 +187,8 @@
         <div class="mb-2" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
           <h1 id="teacher-dashboard-title">CSE - Year 3 (Section A)</h1>
           <div style="display: flex; gap: 0.5rem;">
-            <button class="btn btn-secondary btn-sm" onclick="openTeacherChangePasswordModal()">🔐 Change Password</button>
+            <button class="btn btn-secondary btn-sm" onclick="openTeacherChangePasswordModal()">🔐 Change
+              Password</button>
             <button class="btn btn-secondary btn-sm" onclick="returnToClassSelection()">↩ Switch Class</button>
           </div>
         </div>
@@ -184,12 +198,13 @@
           <div class="sidebar">
             <button class="sidebar-link active" onclick="switchTeacherTab('create-test', this)">Create Test</button>
             <button class="sidebar-link" onclick="switchTeacherTab('manage-test', this)">Manage Tests</button>
-            <button class="sidebar-link" onclick="switchTeacherTab('view-result', this)">View Results & Analytics</button>
+            <button class="sidebar-link" onclick="switchTeacherTab('view-result', this)">View Results &
+              Analytics</button>
           </div>
 
           <!-- Main Panels -->
           <div class="main-content">
-            
+
             <!-- Tab A: Create Test Form -->
             <div id="teacher-tab-create-test" class="glass-card">
               <h2 class="mb-3">Create Assessment</h2>
@@ -200,7 +215,8 @@
                 </div>
                 <div class="form-group">
                   <label for="new-test-duration">Duration (Minutes)</label>
-                  <input type="number" id="new-test-duration" class="form-control" min="1" placeholder="e.g. 30" required>
+                  <input type="number" id="new-test-duration" class="form-control" min="1" placeholder="e.g. 30"
+                    required>
                 </div>
                 <button type="submit" class="btn btn-primary">Save and Edit Content</button>
               </form>
@@ -210,7 +226,8 @@
             <div id="teacher-tab-test-content" class="glass-card hidden">
               <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
                 <h2 id="content-test-name-title">Test: HTML Basics</h2>
-                <button class="btn btn-secondary btn-sm" onclick="switchTeacherTab('manage-test')">↩ Back to Test Manager</button>
+                <button class="btn btn-secondary btn-sm" onclick="switchTeacherTab('manage-test')">↩ Back to Test
+                  Manager</button>
               </div>
 
               <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
@@ -219,12 +236,14 @@
               </div>
 
               <!-- Manual Question Form -->
-              <div id="manual-question-form-container" class="hidden mb-3" style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
+              <div id="manual-question-form-container" class="hidden mb-3"
+                style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
                 <h3 class="mb-2">Add Question</h3>
                 <form id="manual-question-form" onsubmit="handleManualQuestionSubmit(event)">
                   <div class="form-group">
                     <label for="mq-text">Question Text</label>
-                    <textarea id="mq-text" class="form-control" rows="2" placeholder="Enter question description..." required></textarea>
+                    <textarea id="mq-text" class="form-control" rows="2" placeholder="Enter question description..."
+                      required></textarea>
                   </div>
                   <div class="form-group">
                     <label for="mq-a">Option A</label>
@@ -259,13 +278,16 @@
               </div>
 
               <!-- File Upload Form -->
-              <div id="upload-file-form-container" class="hidden mb-3" style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
+              <div id="upload-file-form-container" class="hidden mb-3"
+                style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
                 <h3 class="mb-2">Automatic File Question Extractor</h3>
                 <p class="mb-2" style="color: var(--text-secondary); font-size: 0.9rem;">
-                  Upload TXT, PDF, DOCX, PPTX, or Images. The system will automatically parse and convert contents into multiple choice questions.
+                  Upload TXT, PDF, DOCX, PPTX, or Images. The system will automatically parse and convert contents into
+                  multiple choice questions.
                   To ensure accuracy with text uploads, please use the following block format:
                 </p>
-                <pre style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 1.5rem; color: var(--secondary);">
+                <pre
+                  style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 1.5rem; color: var(--secondary);">
 Q: What is HTML?
 A: Hyper Text Markup Language
 B: Hot Mail
@@ -278,8 +300,10 @@ Correct: A</pre>
                     <span class="file-upload-icon">📂</span>
                     <div class="file-upload-text">Click or Drag document here to upload</div>
                     <div class="file-upload-subtext">Supports PDF, DOC, DOCX, PPT, PPTX, TXT, Images</div>
-                    <input type="file" id="upload-file-input" style="display: none;" onchange="updateUploadLabel(this)" required>
-                    <div id="upload-file-name" style="margin-top: 0.75rem; font-weight: 600; color: var(--text-primary);"></div>
+                    <input type="file" id="upload-file-input" style="display: none;" onchange="updateUploadLabel(this)"
+                      required>
+                    <div id="upload-file-name"
+                      style="margin-top: 0.75rem; font-weight: 600; color: var(--text-primary);"></div>
                   </div>
                   <div style="display: flex; gap: 1rem;">
                     <button type="submit" class="btn btn-success">Extract & Import Questions</button>
@@ -302,7 +326,8 @@ Correct: A</pre>
                     </thead>
                     <tbody id="current-test-questions-tbody">
                       <tr>
-                        <td colspan="4" class="text-center" style="color: var(--text-secondary);">No questions added yet.</td>
+                        <td colspan="4" class="text-center" style="color: var(--text-secondary);">No questions added
+                          yet.</td>
                       </tr>
                     </tbody>
                   </table>
@@ -334,7 +359,8 @@ Correct: A</pre>
             <div id="teacher-tab-view-result" class="hidden">
               <!-- Selected Test Selection for results -->
               <div class="glass-card mb-3">
-                <label for="results-test-selector" style="font-weight: 600; margin-bottom: 0.5rem; display: block;">Select Test to View Grades</label>
+                <label for="results-test-selector"
+                  style="font-weight: 600; margin-bottom: 0.5rem; display: block;">Select Test to View Grades</label>
                 <select id="results-test-selector" class="form-control" onchange="loadTestResults(this.value)">
                   <!-- Loaded dynamically -->
                 </select>
@@ -345,8 +371,10 @@ Correct: A</pre>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                   <h2 id="results-test-title">Results: HTML Basics</h2>
                   <div style="display: flex; gap: 1rem;">
-                    <button class="btn btn-secondary btn-sm" onclick="exportResultsCSV(false)">👁️ View CSV Online</button>
-                    <button class="btn btn-success btn-sm" onclick="exportResultsCSV(true)">📥 Download Excel File</button>
+                    <button class="btn btn-secondary btn-sm" onclick="exportResultsCSV(false)">👁️ View CSV
+                      Online</button>
+                    <button class="btn btn-success btn-sm" onclick="exportResultsCSV(true)">📥 Download Excel
+                      File</button>
                   </div>
                 </div>
 
@@ -393,7 +421,8 @@ Correct: A</pre>
                 <div class="glass-card">
                   <h3 class="mb-2" style="color: #f87171;">Cheating Alert Logs</h3>
                   <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
-                    Real-time detection events of students attempting to switch tabs, minimize windows, or change applications during this exam.
+                    Real-time detection events of students attempting to switch tabs, minimize windows, or change
+                    applications during this exam.
                   </p>
                   <div class="table-container">
                     <table class="data-table">
@@ -408,7 +437,8 @@ Correct: A</pre>
                       </thead>
                       <tbody id="cheating-logs-tbody">
                         <tr>
-                          <td colspan="5" class="text-center" style="color: var(--text-secondary);">No cheating attempts detected. Good compliance!</td>
+                          <td colspan="5" class="text-center" style="color: var(--text-secondary);">No cheating attempts
+                            detected. Good compliance!</td>
                         </tr>
                       </tbody>
                     </table>
@@ -430,7 +460,8 @@ Correct: A</pre>
       <div class="mb-2" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
         <div>
           <h1>Admin Portal Dashboard</h1>
-          <p style="color: var(--text-secondary);">System configuration, database record managers, and percentage overview statistics.</p>
+          <p style="color: var(--text-secondary);">System configuration, database record managers, and percentage
+            overview statistics.</p>
         </div>
         <button class="btn btn-secondary btn-sm" onclick="openAdminCredsModal()">🔐 Change Admin Credentials</button>
       </div>
@@ -443,17 +474,22 @@ Correct: A</pre>
         </div>
 
         <div class="main-content">
-          
+
           <!-- Student Management Panel -->
           <div id="admin-tab-students" class="glass-card">
             <h2>Student Roster Management</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Select Department, Year, and Section to load or initialize students.</p>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Select Department, Year, and Section to load
+              or initialize students.</p>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 150px; gap: 1rem; align-items: flex-end; margin-bottom: 2rem;">
+            <div
+              style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 150px; gap: 1rem; align-items: flex-end; margin-bottom: 2rem;">
               <div class="form-group" style="margin-bottom: 0;">
-                <label for="admin-stud-dept" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <label for="admin-stud-dept"
+                  style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                   Department
-                  <button type="button" class="btn btn-secondary btn-sm" style="padding: 0.1rem 0.4rem; font-size: 0.75rem; border-radius: 4px; line-height: 1;" onclick="openDeptManager()">Edit Dept</button>
+                  <button type="button" class="btn btn-secondary btn-sm"
+                    style="padding: 0.1rem 0.4rem; font-size: 0.75rem; border-radius: 4px; line-height: 1;"
+                    onclick="openDeptManager()">Edit Dept</button>
                 </label>
                 <select id="admin-stud-dept" class="form-control">
                   <!-- Loaded dynamically -->
@@ -483,9 +519,13 @@ Correct: A</pre>
               </div>
             </div>
 
-            <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: center; justify-content: flex-start;">
-              <button class="btn btn-secondary btn-sm" onclick="document.getElementById('student-import-input').click()">📂 Upload Student File</button>
-              <input type="file" id="student-import-input" style="display: none;" onchange="handleStudentBulkImport(this)" accept=".csv,.txt,.xlsx,.xls,.pdf,.docx,.doc,.jpg,.jpeg,.png,.webp">
+            <div
+              style="margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: center; justify-content: flex-start;">
+              <button class="btn btn-secondary btn-sm"
+                onclick="document.getElementById('student-import-input').click()">📂 Upload Student File</button>
+              <input type="file" id="student-import-input" style="display: none;"
+                onchange="handleStudentBulkImport(this)"
+                accept=".csv,.txt,.xlsx,.xls,.pdf,.docx,.doc,.jpg,.jpeg,.png,.webp">
               <span id="student-import-status" style="font-size: 0.9rem; color: var(--text-secondary);"></span>
             </div>
 
@@ -512,23 +552,30 @@ Correct: A</pre>
                 </table>
               </div>
               <button class="btn btn-success" onclick="saveStudentGrid()">Save Class Changes</button>
-              <button class="btn btn-danger" id="clear-all-students-btn" onclick="clearAllStudents()" style="margin-left: 0.5rem;">Clear All Students</button>
-              <button class="btn btn-warning" id="switch-year-btn" onclick="handleSwitchYear()" style="margin-left: 0.5rem;">Switch Year</button>
-              <button class="btn btn-secondary" id="undo-switch-year-btn" onclick="handleUndoSwitchYear()" style="margin-left: 0.5rem;" disabled>Undo</button>
+              <button class="btn btn-danger" id="clear-all-students-btn" onclick="clearAllStudents()"
+                style="margin-left: 0.5rem;">Clear All Students</button>
+              <button class="btn btn-warning" id="switch-year-btn" onclick="handleSwitchYear()"
+                style="margin-left: 0.5rem;">Switch Year</button>
+              <button class="btn btn-secondary" id="undo-switch-year-btn" onclick="handleUndoSwitchYear()"
+                style="margin-left: 0.5rem;" disabled>Undo</button>
             </div>
           </div>
 
           <!-- Teacher Management Panel -->
           <div id="admin-tab-teachers" class="glass-card hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
               <h2>Teacher Account Management</h2>
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('teacher-import-input').click()">📂 Upload Teacher File</button>
-                <input type="file" id="teacher-import-input" style="display: none;" onchange="handleTeacherBulkImport(this)" accept=".csv,.txt,.xlsx,.xls,.pdf,.docx,.doc">
+                <button class="btn btn-secondary btn-sm"
+                  onclick="document.getElementById('teacher-import-input').click()">📂 Upload Teacher File</button>
+                <input type="file" id="teacher-import-input" style="display: none;"
+                  onchange="handleTeacherBulkImport(this)" accept=".csv,.txt,.xlsx,.xls,.pdf,.docx,.doc">
                 <button class="btn btn-primary btn-sm" onclick="openTeacherModal()">+ Add New Teacher</button>
               </div>
             </div>
-            <div id="teacher-import-status" style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);"></div>
+            <div id="teacher-import-status"
+              style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);"></div>
 
             <div class="table-container">
               <table class="data-table">
@@ -564,13 +611,15 @@ Correct: A</pre>
             <div class="cards-row mb-3">
               <div class="glass-card">
                 <h3 class="mb-2">Department Averages</h3>
-                <ul id="admin-dept-averages" style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+                <ul id="admin-dept-averages"
+                  style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
                   <!-- Dynamically populated -->
                 </ul>
               </div>
               <div class="glass-card">
                 <h3 class="mb-2">Year Averages</h3>
-                <ul id="admin-year-averages" style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+                <ul id="admin-year-averages"
+                  style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
                   <!-- Dynamically populated -->
                 </ul>
               </div>
@@ -631,8 +680,13 @@ Correct: A</pre>
           <label for="teacher-modal-password">Password</label>
           <div class="password-wrapper">
             <input type="password" id="teacher-modal-password" class="form-control" required>
-            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('teacher-modal-password', this)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <button type="button" class="password-toggle-btn"
+              onclick="togglePasswordVisibility('teacher-modal-password', this)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </button>
           </div>
         </div>
@@ -664,7 +718,8 @@ Correct: A</pre>
             <button type="button" class="btn btn-primary" onclick="addTeacherModalClass()">Add</button>
           </div>
 
-          <div id="teacher-modal-classes-list" style="display: flex; flex-wrap: wrap; gap: 0.5rem; max-height: 100px; overflow-y: auto;">
+          <div id="teacher-modal-classes-list"
+            style="display: flex; flex-wrap: wrap; gap: 0.5rem; max-height: 100px; overflow-y: auto;">
             <!-- Added tags go here -->
           </div>
         </div>
@@ -681,20 +736,25 @@ Correct: A</pre>
   <div id="csv-preview-modal" class="modal-overlay hidden">
     <div class="modal-content" style="max-width: 800px; width: 95%;">
       <h3 class="modal-title">Online CSV Table Preview</h3>
-      
+
       <div class="modal-body">
         <div class="form-group" style="margin-bottom: 1rem;">
-          <input type="text" id="csv-search-input" class="form-control" placeholder="Search by student name or register number..." oninput="onCsvSearch()">
+          <input type="text" id="csv-search-input" class="form-control"
+            placeholder="Search by student name or register number..." oninput="onCsvSearch()">
         </div>
-        
+
         <div class="table-container" style="max-height: 300px; overflow-y: auto;">
           <table class="data-table">
             <thead>
               <tr>
-                <th onclick="sortCsvTable('name')" style="cursor: pointer; user-select: none;">Student Name <span id="csv-sort-name">↕</span></th>
-                <th onclick="sortCsvTable('reg')" style="cursor: pointer; user-select: none;">Register Number <span id="csv-sort-reg">↕</span></th>
-                <th onclick="sortCsvTable('marks')" style="cursor: pointer; user-select: none;">Marks <span id="csv-sort-marks">↕</span></th>
-                <th onclick="sortCsvTable('status')" style="cursor: pointer; user-select: none;">Attendance Status <span id="csv-sort-status">↕</span></th>
+                <th onclick="sortCsvTable('name')" style="cursor: pointer; user-select: none;">Student Name <span
+                    id="csv-sort-name">↕</span></th>
+                <th onclick="sortCsvTable('reg')" style="cursor: pointer; user-select: none;">Register Number <span
+                    id="csv-sort-reg">↕</span></th>
+                <th onclick="sortCsvTable('marks')" style="cursor: pointer; user-select: none;">Marks <span
+                    id="csv-sort-marks">↕</span></th>
+                <th onclick="sortCsvTable('status')" style="cursor: pointer; user-select: none;">Attendance Status <span
+                    id="csv-sort-status">↕</span></th>
               </tr>
             </thead>
             <tbody id="csv-preview-tbody">
@@ -704,7 +764,8 @@ Correct: A</pre>
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-          <span id="csv-pagination-info" style="font-size: 0.9rem; color: var(--text-secondary);">Showing 1-5 of 5</span>
+          <span id="csv-pagination-info" style="font-size: 0.9rem; color: var(--text-secondary);">Showing 1-5 of
+            5</span>
           <div style="display: flex; gap: 0.5rem;">
             <button id="csv-btn-prev" class="btn btn-secondary btn-sm" onclick="prevCsvPage()">Previous</button>
             <button id="csv-btn-next" class="btn btn-secondary btn-sm" onclick="nextCsvPage()">Next</button>
@@ -725,7 +786,8 @@ Correct: A</pre>
       <div class="modal-body">
         <div class="form-group">
           <label for="dept-modal-list">Existing Departments</label>
-          <select id="dept-modal-list" class="form-control" onchange="onDeptSelectChange()" size="4" style="height: 100px; padding: 0.5rem;">
+          <select id="dept-modal-list" class="form-control" onchange="onDeptSelectChange()" size="4"
+            style="height: 100px; padding: 0.5rem;">
             <!-- Loaded dynamically -->
           </select>
         </div>
@@ -737,10 +799,14 @@ Correct: A</pre>
       <div class="modal-footer" style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
         <div style="display: flex; gap: 0.5rem; width: 100%;">
           <button type="button" class="btn btn-primary btn-sm" style="flex: 1;" onclick="handleDeptAdd()">Add</button>
-          <button type="button" class="btn btn-success btn-sm" style="flex: 1;" onclick="handleDeptRename()">Rename</button>
+          <button type="button" class="btn btn-success btn-sm" style="flex: 1;"
+            onclick="handleDeptRename()">Rename</button>
         </div>
-        <button type="button" class="btn btn-danger btn-sm" style="width: 100%;" onclick="handleDeptRemove()">Remove</button>
-        <button type="button" class="btn btn-secondary btn-sm" style="width: 100%; margin-top: 0.5rem; border-top: 1px solid var(--border-glass);" onclick="closeDeptManager()">Close</button>
+        <button type="button" class="btn btn-danger btn-sm" style="width: 100%;"
+          onclick="handleDeptRemove()">Remove</button>
+        <button type="button" class="btn btn-secondary btn-sm"
+          style="width: 100%; margin-top: 0.5rem; border-top: 1px solid var(--border-glass);"
+          onclick="closeDeptManager()">Close</button>
       </div>
     </div>
   </div>
@@ -758,21 +824,32 @@ Correct: A</pre>
           <label for="admin-creds-old-pass">Old Password</label>
           <div class="password-wrapper">
             <input type="password" id="admin-creds-old-pass" class="form-control" placeholder="••••••••" required>
-            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('admin-creds-old-pass', this)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <button type="button" class="password-toggle-btn"
+              onclick="togglePasswordVisibility('admin-creds-old-pass', this)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </button>
           </div>
         </div>
         <div class="form-group" style="border-top: 1px solid var(--border-glass); padding-top: 1rem; margin-top: 1rem;">
           <label for="admin-creds-new-email">New Email / Username</label>
-          <input type="text" id="admin-creds-new-email" class="form-control" placeholder="e.g. newadmin@school.com" required>
+          <input type="text" id="admin-creds-new-email" class="form-control" placeholder="e.g. newadmin@school.com"
+            required>
         </div>
         <div class="form-group">
           <label for="admin-creds-new-pass">New Password</label>
           <div class="password-wrapper">
             <input type="password" id="admin-creds-new-pass" class="form-control" placeholder="••••••••" required>
-            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('admin-creds-new-pass', this)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <button type="button" class="password-toggle-btn"
+              onclick="togglePasswordVisibility('admin-creds-new-pass', this)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </button>
           </div>
         </div>
@@ -791,14 +868,20 @@ Correct: A</pre>
       <form id="teacher-pw-change-form" onsubmit="handleTeacherPwChangeSubmit(event)">
         <div class="form-group">
           <label for="teacher-pw-old-email">Old Email Address</label>
-          <input type="email" id="teacher-pw-old-email" class="form-control" placeholder="e.g. teacher@school.com" required>
+          <input type="email" id="teacher-pw-old-email" class="form-control" placeholder="e.g. teacher@school.com"
+            required>
         </div>
         <div class="form-group">
           <label for="teacher-pw-old-pass">Old Password</label>
           <div class="password-wrapper">
             <input type="password" id="teacher-pw-old-pass" class="form-control" placeholder="••••••••" required>
-            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('teacher-pw-old-pass', this)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <button type="button" class="password-toggle-btn"
+              onclick="togglePasswordVisibility('teacher-pw-old-pass', this)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </button>
           </div>
         </div>
@@ -806,13 +889,19 @@ Correct: A</pre>
           <label for="teacher-pw-new-pass">New Password</label>
           <div class="password-wrapper">
             <input type="password" id="teacher-pw-new-pass" class="form-control" placeholder="••••••••" required>
-            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('teacher-pw-new-pass', this)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <button type="button" class="password-toggle-btn"
+              onclick="togglePasswordVisibility('teacher-pw-new-pass', this)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </button>
           </div>
         </div>
         <div class="modal-footer" style="margin-top: 1.5rem;">
-          <button type="button" class="btn btn-secondary btn-sm" onclick="closeTeacherChangePasswordModal()">Cancel</button>
+          <button type="button" class="btn btn-secondary btn-sm"
+            onclick="closeTeacherChangePasswordModal()">Cancel</button>
           <button type="submit" class="btn btn-success btn-sm">Change Password</button>
         </div>
       </form>
@@ -821,9 +910,10 @@ Correct: A</pre>
 
   <!-- Student Answer Review Modal -->
   <div id="answer-review-modal" class="modal-overlay hidden">
-    <div class="modal-content" style="max-width: 800px; width: 95%; max-height: 90vh; display: flex; flex-direction: column;">
+    <div class="modal-content"
+      style="max-width: 800px; width: 95%; max-height: 90vh; display: flex; flex-direction: column;">
       <h3 class="modal-title">Student Response Review</h3>
-      
+
       <div class="modal-body" style="overflow-y: auto; flex: 1; padding-right: 5px;">
         <!-- Metadata -->
         <div class="glass-card mb-3" style="background: rgba(0,0,0,0.2); padding: 1.25rem;">
@@ -851,12 +941,15 @@ Correct: A</pre>
   <!-- Fullscreen Request Modal (if denied initially) -->
   <div id="fullscreen-request-modal" class="modal-overlay hidden" style="z-index: 99999;">
     <div class="modal-content text-center" style="max-width: 450px; width: 95%;">
-      <h3 class="modal-title" style="color: #f59e0b; font-size: 1.5rem; margin-bottom: 1rem;">⚠️ Fullscreen Required</h3>
+      <h3 class="modal-title" style="color: #f59e0b; font-size: 1.5rem; margin-bottom: 1rem;">⚠️ Fullscreen Required
+      </h3>
       <p class="mb-3" style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.5;">
-        To start the examination, your browser must be in fullscreen mode. Please click the button below to enter fullscreen.
+        To start the examination, your browser must be in fullscreen mode. Please click the button below to enter
+        fullscreen.
       </p>
       <div class="modal-footer" style="justify-content: center; border-top: none; padding-top: 0;">
-        <button id="fullscreen-start-btn" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 0.75rem;">Enter Fullscreen & Start Exam</button>
+        <button id="fullscreen-start-btn" class="btn btn-primary"
+          style="width: 100%; font-size: 1.1rem; padding: 0.75rem;">Enter Fullscreen & Start Exam</button>
       </div>
     </div>
   </div>
@@ -869,7 +962,8 @@ Correct: A</pre>
         Please return to fullscreen mode to continue the exam.
       </p>
       <div class="modal-footer" style="justify-content: center; border-top: none; padding-top: 0;">
-        <button id="fullscreen-return-btn" class="btn btn-danger" style="width: 100%; font-size: 1.1rem; padding: 0.75rem;">Return to Fullscreen</button>
+        <button id="fullscreen-return-btn" class="btn btn-danger"
+          style="width: 100%; font-size: 1.1rem; padding: 0.75rem;">Return to Fullscreen</button>
       </div>
     </div>
   </div>
@@ -879,4 +973,5 @@ Correct: A</pre>
   <script src="js/teacher.js"></script>
   <script src="js/admin.js"></script>
 </body>
+
 </html>

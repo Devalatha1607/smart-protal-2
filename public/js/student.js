@@ -21,8 +21,6 @@ let pendingTestId = null;
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
-  checkAuthSession();
-
   // Fullscreen change listener during exam
   document.addEventListener('fullscreenchange', () => {
     if (examInProgress) {
@@ -33,6 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+});
+
+window.addEventListener('pageshow', (event) => {
+  const navigationEntries = performance.getEntriesByType('navigation');
+  const navType = (navigationEntries.length > 0) ? navigationEntries[0].type : null;
+  if (event.persisted || (navType && navType !== 'reload')) {
+    sessionStorage.removeItem('sessionActive');
+  }
+  checkAuthSession();
 });
 
 function showFullscreenExitedModal() {
@@ -143,6 +150,7 @@ async function handleLogin(event) {
       return;
     }
 
+    sessionStorage.setItem('sessionActive', 'true');
     currentUser = data.user;
     showPortalDashboard();
   } catch (error) {
@@ -153,6 +161,18 @@ async function handleLogin(event) {
 }
 
 async function checkAuthSession() {
+  const sessionActive = sessionStorage.getItem('sessionActive') === 'true';
+  if (!sessionActive) {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (e) {
+      console.error("Failed to clear server session:", e);
+    }
+    currentUser = null;
+    showLoginView();
+    return;
+  }
+
   try {
     const response = await fetch('/api/auth/me');
     const data = await response.json();
@@ -160,6 +180,7 @@ async function checkAuthSession() {
       currentUser = data.user;
       showPortalDashboard();
     } else {
+      sessionStorage.removeItem('sessionActive');
       showLoginView();
     }
   } catch (error) {
@@ -207,10 +228,12 @@ function showPortalDashboard() {
 async function logout() {
   try {
     await fetch('/api/auth/logout', { method: 'POST' });
-    currentUser = null;
-    showLoginView();
   } catch (error) {
     console.error("Logout error", error);
+  } finally {
+    sessionStorage.removeItem('sessionActive');
+    currentUser = null;
+    showLoginView();
   }
 }
 
