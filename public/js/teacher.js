@@ -232,7 +232,7 @@ async function loadTestQuestions() {
       tr.innerHTML = `
         <td>${idx + 1}</td>
         <td>
-          <div style="font-weight: 600; color: #fff;">${q.question_text}</div>
+          <div style="font-weight: 600; color: var(--text-primary);">${q.question_text}</div>
         </td>
         <td>
           <div style="font-size: 0.85rem; color: var(--text-secondary);">
@@ -856,7 +856,7 @@ async function reviewStudentResponse(studentId, testId) {
           <h4 style="margin: 0; color: var(--secondary);">Question ${resp.questionNumber}</h4>
           <span class="badge ${badgeClass}">${badgeText}</span>
         </div>
-        <p style="margin: 0 0 1rem 0; font-weight: 600; color: #fff;">${resp.questionText}</p>
+        <p style="margin: 0 0 1rem 0; font-weight: 600; color: var(--text-primary);">${resp.questionText}</p>
         
         <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
           <div>

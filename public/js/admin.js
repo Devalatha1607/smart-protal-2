@@ -636,7 +636,7 @@ async function loadAdminAnalytics() {
         ).join('') || '<li style="color: var(--text-muted); font-size: 0.9rem;">No students registered</li>';
 
         classCard.innerHTML = `
-          <h4 style="font-size: 0.95rem; color: var(--secondary); margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.25rem;">
+          <h4 style="font-size: 0.95rem; color: var(--secondary); margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.25rem;">
             ${cls.className} (${cls.students.length} students)
           </h4>
           <ul style="list-style: decimal; padding-left: 1.25rem;">

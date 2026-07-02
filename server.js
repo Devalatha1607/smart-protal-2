@@ -246,24 +246,49 @@ app.get('/api/auth/reset-password/verify', async (req, res) => {
       <head>
         <title>Reset Password</title>
         <style>
-          body { font-family: sans-serif; background: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-          .card { background: #1e293b; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); width: 350px; }
-          h2 { margin-top: 0; color: #38bdf8; }
-          input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #475569; background: #0f172a; color: white; border-radius: 4px; box-sizing: border-box; }
-          button { width: 100%; padding: 10px; background: #0ea5e9; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
+          body { font-family: sans-serif; background: #ffffff; color: #1f2937; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+          .card { background: #ffffff; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.05); width: 350px; }
+          h2 { margin-top: 0; color: #0ea5e9; }
+          .password-wrapper { position: relative; display: flex; align-items: center; width: 100%; margin: 10px 0; }
+          input { width: 100%; padding: 10px; padding-right: 35px; border: 1px solid #cbd5e1; background: #f9fafb; color: #111827; border-radius: 4px; box-sizing: border-box; }
+          input:focus { outline: none; border-color: #0ea5e9; background: #ffffff; }
+          .password-toggle-btn { position: absolute; right: 8px; background: none; border: none; padding: 2px; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+          .password-toggle-btn:hover { color: #1e293b; }
+          button { width: 100%; padding: 10px; background: #0ea5e9; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; margin-top: 10px; }
           button:hover { background: #0284c7; }
         </style>
       </head>
       <body>
         <div class="card">
           <h2>Reset Password</h2>
-          <p>Please enter your new password for <strong>${sessionData.email}</strong></p>
+          <p style="color: #4b5563;">Please enter your new password for <strong>${sessionData.email}</strong></p>
           <form action="/api/auth/reset-password/confirm" method="POST">
             <input type="hidden" name="token" value="${token}">
-            <input type="password" name="newPassword" placeholder="New Password" required minlength="4">
+            <div class="password-wrapper">
+              <input type="password" id="newPassword" name="newPassword" placeholder="New Password" required minlength="4">
+              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('newPassword', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
             <button type="submit">Update Password</button>
           </form>
         </div>
+        <script>
+          function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+              input.type = 'text';
+              btn.innerHTML = \`
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-off-icon"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+              \`;
+            } else {
+              input.type = 'password';
+              btn.innerHTML = \`
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              \`;
+            }
+          }
+        </script>
       </body>
       </html>
     `;
@@ -307,8 +332,8 @@ app.post('/api/auth/reset-password/confirm', async (req, res) => {
       <head>
         <title>Success</title>
         <style>
-          body { font-family: sans-serif; background: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-          .card { background: #1e293b; padding: 30px; border-radius: 8px; text-align: center; }
+          body { font-family: sans-serif; background: #ffffff; color: #1f2937; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+          .card { background: #ffffff; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: center; }
           h2 { color: #22c55e; }
           a { color: #38bdf8; text-decoration: none; }
         </style>
@@ -357,14 +382,14 @@ app.get('/api/auth/reset-password/teacher', async (req, res) => {
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
           :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --border-glass: rgba(255, 255, 255, 0.08);
+            --bg-gradient: #ffffff;
+            --card-bg: #ffffff;
+            --border-glass: #e5e7eb;
             --primary: #3b82f6;
             --primary-hover: #2563eb;
             --secondary: #8b5cf6;
-            --text-main: #f8fafc;
-            --text-secondary: #94a3b8;
+            --text-main: #111827;
+            --text-secondary: #4b5563;
           }
           body {
             font-family: 'Inter', sans-serif;
@@ -379,12 +404,10 @@ app.get('/api/auth/reset-password/teacher', async (req, res) => {
           }
           .card {
             background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             padding: 40px;
             border-radius: 16px;
             border: 1px solid var(--border-glass);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
             width: 380px;
             text-align: left;
           }
@@ -412,12 +435,34 @@ app.get('/api/auth/reset-password/teacher', async (req, res) => {
             margin-bottom: 8px;
             color: var(--text-secondary);
           }
+          .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+          }
+          .password-toggle-btn {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            padding: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .password-toggle-btn:hover {
+            color: var(--text-main);
+          }
           input {
             width: 100%;
             padding: 12px 16px;
+            padding-right: 45px;
             font-size: 1rem;
             border: 1px solid var(--border-glass);
-            background: rgba(15, 23, 42, 0.6);
+            background: #f9fafb;
             color: var(--text-main);
             border-radius: 8px;
             box-sizing: border-box;
@@ -427,6 +472,7 @@ app.get('/api/auth/reset-password/teacher', async (req, res) => {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            background: #ffffff;
           }
           button {
             width: 100%;
@@ -466,19 +512,43 @@ app.get('/api/auth/reset-password/teacher', async (req, res) => {
             
             <div class="form-group">
               <label for="newPassword">New Password</label>
-              <input type="password" id="newPassword" name="newPassword" placeholder="••••••••" required minlength="4">
+              <div class="password-wrapper">
+                <input type="password" id="newPassword" name="newPassword" placeholder="••••••••" required minlength="4">
+                <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('newPassword', this)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
             </div>
-
+ 
             <div class="form-group">
               <label for="confirmNewPassword">Confirm New Password</label>
-              <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="••••••••" required minlength="4">
+              <div class="password-wrapper">
+                <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="••••••••" required minlength="4">
+                <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('confirmNewPassword', this)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
               <div id="error-msg" class="error-msg">Passwords do not match</div>
             </div>
-
+ 
             <button type="submit">Update Password</button>
           </form>
         </div>
         <script>
+          function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+              input.type = 'text';
+              btn.innerHTML = \`
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-off-icon"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+              \`;
+            } else {
+              input.type = 'password';
+              btn.innerHTML = \`
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              \`;
+            }
+          }
           function validatePasswords(event) {
             const newPwd = document.getElementById('newPassword').value;
             const confirmPwd = document.getElementById('confirmNewPassword').value;
@@ -536,12 +606,12 @@ app.post('/api/auth/reset-password/confirm-teacher', async (req, res) => {
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
           :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --border-glass: rgba(255, 255, 255, 0.08);
+            --bg-gradient: #ffffff;
+            --card-bg: #ffffff;
+            --border-glass: #e5e7eb;
             --success: #22c55e;
-            --text-main: #f8fafc;
-            --text-secondary: #94a3b8;
+            --text-main: #111827;
+            --text-secondary: #4b5563;
           }
           body {
             font-family: 'Inter', sans-serif;

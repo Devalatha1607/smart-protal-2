@@ -1,25 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --bg-gradient: radial-gradient(circle at 50% 0%, #1e1932, #0d0b16, #07060a);
+  --bg-gradient: #ffffff;
   --primary-hsl: 260, 85%, 65%;
   --primary: hsl(var(--primary-hsl));
   --primary-hover: hsl(260, 85%, 72%);
   --secondary: #1cd0d0;
-  --secondary-glow: rgba(28, 208, 208, 0.15);
+  --secondary-glow: rgba(28, 208, 208, 0.1);
   
-  --bg-glass: rgba(255, 255, 255, 0.03);
-  --border-glass: rgba(255, 255, 255, 0.07);
-  --border-glass-focus: rgba(255, 255, 255, 0.18);
-  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --bg-glass: #ffffff;
+  --border-glass: #e5e7eb;
+  --border-glass-focus: #cbd5e1;
+  --shadow-glass: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
   
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
   
   /* Palette Colors */
-  --palette-white: rgba(255, 255, 255, 0.12);
-  --palette-white-border: rgba(255, 255, 255, 0.3);
+  --palette-white: #f3f4f6;
+  --palette-white-border: #d1d5db;
   --palette-green: #10b981;
   --palette-red: #ef4444;
   --palette-yellow: #f59e0b;
@@ -47,14 +47,14 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.05);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 /* Header & Typography */
@@ -91,7 +91,7 @@ h1, h2, h3, h4, h5, h6 {
   gap: 0.75rem;
   font-weight: 800;
   font-size: 1.6rem;
-  background: linear-gradient(135deg, var(--text-primary), var(--secondary));
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -139,7 +139,7 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   gap: 1rem;
   margin: 2rem auto;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.04);
   padding: 0.5rem;
   border-radius: 16px;
   border: 1px solid var(--border-glass);
@@ -217,11 +217,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .form-control {
-  background: rgba(0, 0, 0, 0.25);
+  background: #f9fafb;
   border: 1px solid var(--border-glass);
   border-radius: 12px;
   padding: 0.85rem 1rem;
-  color: #fff;
+  color: var(--text-primary);
   font-family: inherit;
   font-size: 1rem;
   transition: all 0.2s ease;
@@ -231,7 +231,7 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(138, 92, 245, 0.15);
-  background: rgba(0, 0, 0, 0.35);
+  background: #ffffff;
 }
 
 /* Buttons */
@@ -376,13 +376,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar-link:hover, .sidebar-link.active {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--primary);
+  background: rgba(138, 92, 245, 0.05);
 }
 
 .sidebar-link.active {
   border-left: 4px solid var(--primary);
-  background: rgba(138, 92, 245, 0.08);
+  background: rgba(138, 92, 245, 0.1);
 }
 
 .main-content {
@@ -434,7 +434,7 @@ h1, h2, h3, h4, h5, h6 {
 .table-container {
   width: 100%;
   overflow-x: auto;
-  background: rgba(0,0,0,0.15);
+  background: #ffffff;
   border: 1px solid var(--border-glass);
   border-radius: 16px;
   margin: 1rem 0;
@@ -448,7 +448,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .data-table th {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.02);
   color: var(--text-secondary);
   padding: 1rem 1.25rem;
   font-weight: 600;
@@ -460,7 +460,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .data-table td {
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   color: var(--text-primary);
 }
 
@@ -469,16 +469,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .data-table tr:hover td {
-  background: rgba(255, 255, 255, 0.01);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 /* Editable cells and tables inputs */
 .table-input {
-  background: rgba(0,0,0,0.3);
+  background: #ffffff;
   border: 1px solid var(--border-glass);
   border-radius: 8px;
   padding: 0.4rem 0.75rem;
-  color: #fff;
+  color: var(--text-primary);
   font-family: inherit;
   font-size: 0.9rem;
   width: 100%;
@@ -488,6 +488,7 @@ h1, h2, h3, h4, h5, h6 {
 .table-input:focus {
   outline: none;
   border-color: var(--primary);
+  background: #ffffff;
 }
 
 /* EXAM PAGE SPECIFIC STYLES */
@@ -539,7 +540,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.02);
   border: 1px solid var(--border-glass);
   border-radius: 12px;
   padding: 1rem 1.25rem;
@@ -548,7 +549,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .option-item:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.04);
   border-color: var(--border-glass-focus);
 }
 
@@ -565,7 +566,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-glass);
   font-weight: 600;
   font-size: 0.9rem;
@@ -597,8 +598,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .timer-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.25);
   border-radius: 16px;
   padding: 1.25rem;
   text-align: center;
@@ -769,8 +770,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .modal-content {
-  background: #15131d;
-  border: 1px solid var(--border-glass-focus);
+  background: #ffffff;
+  border: 1px solid var(--border-glass);
   border-radius: 20px;
   max-width: 500px;
   width: 100%;
@@ -781,7 +782,7 @@ h1, h2, h3, h4, h5, h6 {
 .modal-title {
   font-size: 1.4rem;
   margin-bottom: 1rem;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .modal-body {
@@ -804,7 +805,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   transition: all 0.2s ease;
   margin-bottom: 1.5rem;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.02);
 }
 
 .file-upload-zone:hover {
@@ -856,7 +857,7 @@ h1, h2, h3, h4, h5, h6 {
 .class-card-dept {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -901,3 +902,39 @@ h1, h2, h3, h4, h5, h6 {
 .badge-danger { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
 .badge-warning { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
 .badge-info { background: rgba(28,208,208,0.15); color: #1cd0d0; border: 1px solid rgba(28,208,208,0.3); }
+
+/* Password Wrapper and Toggle Eye Button */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-wrapper .form-control {
+  width: 100%;
+  padding-right: 2.75rem;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  z-index: 10;
+}
+
+.password-toggle-btn:hover {
+  color: var(--text-primary);
+}
+
+.password-toggle-btn svg {
+  display: block;
+}

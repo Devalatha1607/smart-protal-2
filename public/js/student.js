@@ -16,15 +16,62 @@ let examTimer = null;
 let timeRemaining = 0; // in seconds
 let isCheated = false;
 let ignoreBlur = false;
+let examInProgress = false;
+let pendingTestId = null;
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
   checkAuthSession();
+
+  // Fullscreen change listener during exam
+  document.addEventListener('fullscreenchange', () => {
+    if (examInProgress) {
+      if (!document.fullscreenElement) {
+        showFullscreenExitedModal();
+      } else {
+        hideFullscreenExitedModal();
+      }
+    }
+  });
 });
+
+function showFullscreenExitedModal() {
+  const modal = document.getElementById('fullscreen-warning-modal');
+  modal.classList.remove('hidden');
+  
+  const returnBtn = document.getElementById('fullscreen-return-btn');
+  returnBtn.onclick = async () => {
+    try {
+      await document.documentElement.requestFullscreen();
+    } catch (err) {
+      alert("Failed to enter fullscreen mode. Please try again.");
+    }
+  };
+}
+
+function hideFullscreenExitedModal() {
+  const modal = document.getElementById('fullscreen-warning-modal');
+  modal.classList.add('hidden');
+}
 
 // ----------------------------------------------------
 // AUTHENTICATION LOGIC (Shared)
 // ----------------------------------------------------
+
+function togglePasswordVisibility(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-off-icon"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+    `;
+  } else {
+    input.type = 'password';
+    btn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+    `;
+  }
+}
 
 function toggleForgotLink() {
   const username = document.getElementById('login-username').value.trim();
@@ -194,7 +241,7 @@ async function loadStudentDashboard() {
       const isSubmitted = test.submitted;
       
       card.innerHTML = `
-        <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem; color: #fff;">${test.name}</h3>
+        <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--text-primary);">${test.name}</h3>
         <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
           Duration: <strong style="color: var(--secondary);">${test.duration} mins</strong>
         </p>
@@ -223,11 +270,41 @@ async function startExam(testId) {
     return;
   }
 
+  pendingTestId = testId;
+
+  try {
+    await document.documentElement.requestFullscreen();
+    proceedWithStartExam(testId);
+  } catch (err) {
+    showFullscreenRequiredToStartModal();
+  }
+}
+
+function showFullscreenRequiredToStartModal() {
+  const modal = document.getElementById('fullscreen-request-modal');
+  modal.classList.remove('hidden');
+  
+  const startBtn = document.getElementById('fullscreen-start-btn');
+  startBtn.onclick = async () => {
+    try {
+      await document.documentElement.requestFullscreen();
+      modal.classList.add('hidden');
+      proceedWithStartExam(pendingTestId);
+    } catch (err) {
+      alert("Fullscreen permission is still denied. You must allow fullscreen to start the exam.");
+    }
+  };
+}
+
+async function proceedWithStartExam(testId) {
   try {
     const response = await fetch(`/api/student/test/${testId}`);
     if (!response.ok) {
       const err = await response.json();
       alert(err.error || 'Failed to start test');
+      if (document.fullscreenElement) {
+        await document.exitFullscreen().catch(()=>{});
+      }
       return;
     }
 
@@ -241,8 +318,13 @@ async function startExam(testId) {
 
     if (examQuestions.length === 0) {
       alert("This exam does not contain any questions. Please contact your instructor.");
+      if (document.fullscreenElement) {
+        await document.exitFullscreen().catch(()=>{});
+      }
       return;
     }
+
+    examInProgress = true;
 
     // Hide dashboard, show exam view
     document.getElementById('student-portal').classList.add('hidden');
@@ -277,6 +359,9 @@ async function startExam(testId) {
   } catch (error) {
     console.error(error);
     alert('Failed to connect to examination server.');
+    if (document.fullscreenElement) {
+      await document.exitFullscreen().catch(()=>{});
+    }
   }
 }
 
@@ -476,6 +561,11 @@ async function triggerCheatingIncident(testId, reason) {
 
   removeAntiCheating();
   if (examTimer) clearInterval(examTimer);
+  examInProgress = false;
+
+  if (document.fullscreenElement) {
+    await document.exitFullscreen().catch(()=>{});
+  }
 
   const answersList = examQuestions.map(q => ({
     questionId: q.id,
@@ -525,6 +615,11 @@ function triggerSubmitConfirmation() {
 async function submitExam(cheatedFlag) {
   if (examTimer) clearInterval(examTimer);
   removeAntiCheating();
+  examInProgress = false;
+
+  if (document.fullscreenElement) {
+    await document.exitFullscreen().catch(()=>{});
+  }
 
   const testId = activeExam.id || examQuestions[0].test_id;
   const answersList = examQuestions.map(q => ({
