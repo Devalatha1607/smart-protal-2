@@ -95,6 +95,12 @@ function toggleForgotLink() {
   }
 }
 
+function quickFill(username, password) {
+  document.getElementById('login-username').value = username;
+  document.getElementById('login-password').value = password;
+  toggleForgotLink();
+}
+
 async function handleForgotPassword(event) {
   event.preventDefault();
   const username = document.getElementById('login-username').value.trim();
